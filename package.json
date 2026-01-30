@@ -1,0 +1,11 @@
+{
+  "name": "solvencyproof",
+  "private": true,
+  "packageManager": "pnpm@9.15.4",
+  "scripts": {
+    "contracts:compile": "pnpm --filter @solvencyproof/contracts compile",
+    "contracts:deploy:sepolia": "pnpm --filter @solvencyproof/contracts deploy:sepolia",
+    "app:dev": "pnpm --filter @solvencyproof/app dev",
+    "backend:typecheck": "pnpm --filter @solvencyproof/backend typecheck"
+  }
+}
