@@ -6,7 +6,7 @@ interface IGroth16Verifier {
         uint256[2] calldata _pA,
         uint256[2][2] calldata _pB,
         uint256[2] calldata _pC,
-        uint256[3] calldata _pubSignals
+        uint256[4] calldata _pubSignals
     ) external view returns (bool);
 }
 
@@ -58,18 +58,16 @@ contract SolvencyProofRegistry {
         uint256 reservesTotal,
         uint256[2] calldata _pA,
         uint256[2][2] calldata _pB,
-        uint256[2] calldata _pC
+        uint256[2] calldata _pC,
+        uint256[4] calldata _pubSignals
     ) external {
         require(proofs[epochId].timestamp == 0, "Epoch already submitted");
 
-        // Public signals: [liabilitiesRoot, reservesTotal, epochId]
-        uint256[3] memory pubSignals = [
-            uint256(liabilitiesRoot),
-            reservesTotal,
-            uint256(epochId)
-        ];
+        // Validate public signals: [isSolvent, liabilitiesRoot, reservesTotal, epochId]
+        require(_pubSignals[0] == 1, "Proof shows insolvency");
+        require(_pubSignals[2] == reservesTotal, "Reserves mismatch");
 
-        bool valid = verifier.verifyProof(_pA, _pB, _pC, pubSignals);
+        bool valid = verifier.verifyProof(_pA, _pB, _pC, _pubSignals);
         require(valid, "Invalid proof");
 
         proofs[epochId] = SolvencyProof({

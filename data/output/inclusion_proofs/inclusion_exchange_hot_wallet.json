@@ -1,0 +1,11 @@
+{
+  "userId": "exchange_hot_wallet",
+  "balance": "1000000",
+  "leafHash": "0x33d721bd1f46f41d3aa170fa3a4c636d926e2c060a3164e8a0e9a03764d0c112",
+  "proof": [
+    "0x61bbdbd18d566aea696cf12a83e9d593f2352383fe1f760e31a552771e0b7c40",
+    "0xd371e0b51068e32a9534c3d2b5780fdc98ecf1fc01aeef433afaec531358d852"
+  ],
+  "index": 0,
+  "root": "0x146b9e833eec7907bfdf60ae5a6b29c2b8ad6775d556727f95e86c8e0edd3955"
+}

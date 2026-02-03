@@ -1,0 +1,11 @@
+{
+  "userId": "bob",
+  "balance": "3000",
+  "leafHash": "0x6ede09a2b718791cc2c90d5ee37e358e70fc2c0d48ad6748313089093fca265e",
+  "proof": [
+    "0x7c750799eb5fd4416f15dbfa0865e07caa57958cf01ab8a5ea3c2b641bd70506",
+    "0x4dcc36fe6ab0a9d32a799e848bcfea5c944c8088462333b1f3fdaa0073f20804"
+  ],
+  "index": 1,
+  "root": "0xe9a47d641446b9a26b6486d34ee58a117dd599c7ff91e87dba5b04d39ae50dd9"
+}

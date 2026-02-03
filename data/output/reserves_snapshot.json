@@ -1,9 +1,15 @@
 {
   "epoch_id": "epoch_001",
-  "timestamp": 1769936501067,
+  "timestamp": 1770130145091,
   "chain": "sepolia",
   "chain_id": 11155111,
-  "addresses": [],
-  "reserves_total": "0",
-  "reserves_total_wei": "0"
+  "addresses": [
+    {
+      "address": "0xa58DCCb0F17279abD1d0D9069Aa8711Df4a4c58E",
+      "balance": "0.355711576363123007",
+      "balanceWei": "355711576363123007"
+    }
+  ],
+  "reserves_total": "0.355711576363123007",
+  "reserves_total_wei": "355711576363123007"
 }

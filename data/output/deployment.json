@@ -1,0 +1,9 @@
+{
+  "network": "sepolia",
+  "chainId": 11155111,
+  "timestamp": "2026-02-03T15:13:10.751Z",
+  "contracts": {
+    "Groth16Verifier": "0x5e22F8cB0CfbC0df5F2251009674E1266E1D2DD6",
+    "SolvencyProofRegistry": "0x7a9f15BCD95FDD20cf31A480f37CAA9b708aB33d"
+  }
+}

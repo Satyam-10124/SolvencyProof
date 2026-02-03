@@ -6,12 +6,12 @@ async function main() {
   const [deployer] = await ethers.getSigners();
   console.log("Deploying contracts with account:", deployer.address);
 
-  // Deploy MockVerifier first (for testing - replace with real verifier in production)
-  const MockVerifier = await ethers.getContractFactory("MockVerifier");
-  const mockVerifier = await MockVerifier.deploy(true); // alwaysValid = true for demo
-  await mockVerifier.waitForDeployment();
-  const verifierAddress = await mockVerifier.getAddress();
-  console.log("MockVerifier deployed to:", verifierAddress);
+  // Deploy real Groth16Verifier for ZK proof verification
+  const Groth16Verifier = await ethers.getContractFactory("Groth16Verifier");
+  const verifier = await Groth16Verifier.deploy();
+  await verifier.waitForDeployment();
+  const verifierAddress = await verifier.getAddress();
+  console.log("Groth16Verifier deployed to:", verifierAddress);
 
   // Deploy SolvencyProofRegistry
   const SolvencyProofRegistry = await ethers.getContractFactory("SolvencyProofRegistry");
@@ -26,7 +26,7 @@ async function main() {
     chainId: 11155111,
     timestamp: new Date().toISOString(),
     contracts: {
-      MockVerifier: verifierAddress,
+      Groth16Verifier: verifierAddress,
       SolvencyProofRegistry: registryAddress,
     },
   };

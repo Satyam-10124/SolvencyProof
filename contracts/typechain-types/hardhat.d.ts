@@ -14,13 +14,13 @@ import * as Contracts from ".";
 declare module "hardhat/types/runtime" {
   interface HardhatEthersHelpers extends HardhatEthersHelpersBase {
     getContractFactory(
+      name: "Groth16Verifier",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.Groth16Verifier__factory>;
+    getContractFactory(
       name: "MockVerifier",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.MockVerifier__factory>;
-    getContractFactory(
-      name: "Placeholder",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.Placeholder__factory>;
     getContractFactory(
       name: "IGroth16Verifier",
       signerOrOptions?: ethers.Signer | FactoryOptions
@@ -31,15 +31,15 @@ declare module "hardhat/types/runtime" {
     ): Promise<Contracts.SolvencyProofRegistry__factory>;
 
     getContractAt(
+      name: "Groth16Verifier",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer
+    ): Promise<Contracts.Groth16Verifier>;
+    getContractAt(
       name: "MockVerifier",
       address: string | ethers.Addressable,
       signer?: ethers.Signer
     ): Promise<Contracts.MockVerifier>;
-    getContractAt(
-      name: "Placeholder",
-      address: string | ethers.Addressable,
-      signer?: ethers.Signer
-    ): Promise<Contracts.Placeholder>;
     getContractAt(
       name: "IGroth16Verifier",
       address: string | ethers.Addressable,
@@ -52,13 +52,13 @@ declare module "hardhat/types/runtime" {
     ): Promise<Contracts.SolvencyProofRegistry>;
 
     deployContract(
+      name: "Groth16Verifier",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.Groth16Verifier>;
+    deployContract(
       name: "MockVerifier",
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.MockVerifier>;
-    deployContract(
-      name: "Placeholder",
-      signerOrOptions?: ethers.Signer | DeployContractOptions
-    ): Promise<Contracts.Placeholder>;
     deployContract(
       name: "IGroth16Verifier",
       signerOrOptions?: ethers.Signer | DeployContractOptions
@@ -69,15 +69,15 @@ declare module "hardhat/types/runtime" {
     ): Promise<Contracts.SolvencyProofRegistry>;
 
     deployContract(
+      name: "Groth16Verifier",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.Groth16Verifier>;
+    deployContract(
       name: "MockVerifier",
       args: any[],
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.MockVerifier>;
-    deployContract(
-      name: "Placeholder",
-      args: any[],
-      signerOrOptions?: ethers.Signer | DeployContractOptions
-    ): Promise<Contracts.Placeholder>;
     deployContract(
       name: "IGroth16Verifier",
       args: any[],

@@ -1,0 +1,13 @@
+[phases.setup]
+nixPkgs = ["nodejs_20"]
+
+[phases.install]
+cmds = ["npm install"]
+
+[start]
+cmd = "node --import tsx src/api/server.ts"
+
+[variables]
+NODE_ENV = "production"
+PORT = "3001"
+NIXPACKS_NO_WORKSPACE = "true"

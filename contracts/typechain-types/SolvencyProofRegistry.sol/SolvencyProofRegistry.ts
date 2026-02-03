@@ -100,7 +100,8 @@ export interface SolvencyProofRegistryInterface extends Interface {
       BigNumberish,
       [BigNumberish, BigNumberish],
       [[BigNumberish, BigNumberish], [BigNumberish, BigNumberish]],
-      [BigNumberish, BigNumberish]
+      [BigNumberish, BigNumberish],
+      [BigNumberish, BigNumberish, BigNumberish, BigNumberish]
     ]
   ): string;
   encodeFunctionData(functionFragment: "verifier", values?: undefined): string;
@@ -260,7 +261,8 @@ export interface SolvencyProofRegistry extends BaseContract {
       reservesTotal: BigNumberish,
       _pA: [BigNumberish, BigNumberish],
       _pB: [[BigNumberish, BigNumberish], [BigNumberish, BigNumberish]],
-      _pC: [BigNumberish, BigNumberish]
+      _pC: [BigNumberish, BigNumberish],
+      _pubSignals: [BigNumberish, BigNumberish, BigNumberish, BigNumberish]
     ],
     [void],
     "nonpayable"
@@ -322,7 +324,8 @@ export interface SolvencyProofRegistry extends BaseContract {
       reservesTotal: BigNumberish,
       _pA: [BigNumberish, BigNumberish],
       _pB: [[BigNumberish, BigNumberish], [BigNumberish, BigNumberish]],
-      _pC: [BigNumberish, BigNumberish]
+      _pC: [BigNumberish, BigNumberish],
+      _pubSignals: [BigNumberish, BigNumberish, BigNumberish, BigNumberish]
     ],
     [void],
     "nonpayable"

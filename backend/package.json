@@ -3,22 +3,39 @@
   "version": "0.0.0",
   "private": true,
   "type": "module",
+  "main": "index.ts",
   "scripts": {
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "build": "tsc -p tsconfig.json",
+    "dev": "npx tsx src/api/server.ts",
+    "start": "node --import tsx src/api/server.ts",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
     "build:liabilities": "npx tsx src/liabilities-builder.ts",
     "scan:reserves": "npx tsx src/reserves-scanner.ts",
-    "prove:solvency": "npx tsx src/prove-solvency.ts",
+    "prove:solvency": "npx tsx src/solvency-prover.ts",
+    "submit:proof": "npx tsx src/submit-proof.ts",
     "verify:inclusion": "npx tsx src/verify-inclusion.ts"
   },
   "dependencies": {
-    "viem": "^2.21.40",
+    "@erc7824/nitrolite": "^0.1.0",
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.6",
+    "@types/ws": "^8.18.1",
+    "cors": "^2.8.6",
     "csv-parse": "^5.5.6",
-    "dotenv": "^16.4.5"
+    "dotenv": "^16.4.5",
+    "express": "^5.2.1",
+    "tsx": "^4.19.2",
+    "viem": "^2.21.40",
+    "ws": "^8.19.0"
   },
   "devDependencies": {
     "@types/node": "^22.10.2",
-    "tsx": "^4.19.2",
-    "typescript": "^5.6.3"
+    "@types/supertest": "^6.0.3",
+    "supertest": "^7.2.2",
+    "typescript": "^5.6.3",
+    "vitest": "^4.0.18"
   }
 }

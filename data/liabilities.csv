@@ -1,6 +1,5 @@
 user_id,balance
-user_001,100
-user_002,250
-user_003,150
-user_004,75
-user_005,200
+exchange_hot_wallet,1000000
+user_alice,55000
+user_bob,28000
+user_charlie,20000

@@ -2,5 +2,5 @@
 /* tslint:disable */
 /* eslint-disable */
 export * as solvencyProofRegistrySol from "./SolvencyProofRegistry.sol";
+export { Groth16Verifier__factory } from "./Groth16Verifier__factory";
 export { MockVerifier__factory } from "./MockVerifier__factory";
-export { Placeholder__factory } from "./Placeholder__factory";

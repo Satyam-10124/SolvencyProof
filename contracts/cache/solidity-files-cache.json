@@ -1,81 +1,9 @@
 {
   "_format": "hh-sol-cache-2",
   "files": {
-    "/Users/satyamsinghal/Desktop/Products/SolvencyProof/contracts/contracts/MockVerifier.sol": {
-      "lastModificationDate": 1769935705877,
-      "contentHash": "0acc43d3f5de9487ac275124c61cf45e",
-      "sourceName": "contracts/MockVerifier.sol",
-      "solcConfig": {
-        "version": "0.8.24",
-        "settings": {
-          "optimizer": {
-            "enabled": true,
-            "runs": 200
-          },
-          "evmVersion": "paris",
-          "outputSelection": {
-            "*": {
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers",
-                "metadata"
-              ],
-              "": [
-                "ast"
-              ]
-            }
-          }
-        }
-      },
-      "imports": [],
-      "versionPragmas": [
-        "^0.8.24"
-      ],
-      "artifacts": [
-        "MockVerifier"
-      ]
-    },
-    "/Users/satyamsinghal/Desktop/Products/SolvencyProof/contracts/contracts/Placeholder.sol": {
-      "lastModificationDate": 1769768592260,
-      "contentHash": "566fcb25198890e6cd325d931c264094",
-      "sourceName": "contracts/Placeholder.sol",
-      "solcConfig": {
-        "version": "0.8.24",
-        "settings": {
-          "optimizer": {
-            "enabled": true,
-            "runs": 200
-          },
-          "evmVersion": "paris",
-          "outputSelection": {
-            "*": {
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers",
-                "metadata"
-              ],
-              "": [
-                "ast"
-              ]
-            }
-          }
-        }
-      },
-      "imports": [],
-      "versionPragmas": [
-        "^0.8.24"
-      ],
-      "artifacts": [
-        "Placeholder"
-      ]
-    },
     "/Users/satyamsinghal/Desktop/Products/SolvencyProof/contracts/contracts/SolvencyProofRegistry.sol": {
-      "lastModificationDate": 1769935704233,
-      "contentHash": "c786c3bed10e6212ffc7fa470fccae75",
+      "lastModificationDate": 1770131520316,
+      "contentHash": "81202b13f8d55e1d29fbe02896397969",
       "sourceName": "contracts/SolvencyProofRegistry.sol",
       "solcConfig": {
         "version": "0.8.24",
@@ -108,6 +36,42 @@
       "artifacts": [
         "IGroth16Verifier",
         "SolvencyProofRegistry"
+      ]
+    },
+    "/Users/satyamsinghal/Desktop/Products/SolvencyProof/contracts/contracts/Groth16Verifier.sol": {
+      "lastModificationDate": 1770128389715,
+      "contentHash": "ec004a8c4de7d883337aa657053a1626",
+      "sourceName": "contracts/Groth16Verifier.sol",
+      "solcConfig": {
+        "version": "0.8.24",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "evmVersion": "paris",
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        ">=0.7.0 <0.9.0"
+      ],
+      "artifacts": [
+        "Groth16Verifier"
       ]
     }
   }

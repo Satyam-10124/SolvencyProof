@@ -1,0 +1,10 @@
+{
+  "txHash": "0x9691d3909456b95d8738f2d24cc2bc3d960ba52ea1a32d53b779a0acef93af8c",
+  "blockNumber": "10184609",
+  "gasUsed": "383170",
+  "epochId": "0x00000000000000000000000000000000000000000000000000000000698248b5",
+  "liabilitiesRoot": "0x210ea1fba7cab62e0501854ff6dbf2fb1cf3df7b775653008e97cf4ccbf8469a",
+  "reservesTotal": "355711576363123007",
+  "verified": true,
+  "timestamp": "2026-02-03T19:13:01.301Z"
+}

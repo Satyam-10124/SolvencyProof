@@ -1,0 +1,11 @@
+{
+  "userId": "yellow_user_2",
+  "balance": "3000",
+  "leafHash": "0x9be6bfd5aa21a43aa4f74a24fc21a92228957a97d22207fc7b1ac3fe67c7562e",
+  "proof": [
+    "0x9be466b2c7301e477bfe7038c4483a6358c323e853aca9bac5fdcdf96266ce0d",
+    "0x74f93a953a638b697dc687c7b956f23054a4560a7ef4dd6794548bbf85fcb205"
+  ],
+  "index": 1,
+  "root": "0xa82c97d81113873ce337792957e7bde96bd4e79efd371021a175c3517ead8c5b"
+}

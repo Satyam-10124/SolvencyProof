@@ -3,11 +3,11 @@
 /* eslint-disable */
 import type * as solvencyProofRegistrySol from "./SolvencyProofRegistry.sol";
 export type { solvencyProofRegistrySol };
+export type { Groth16Verifier } from "./Groth16Verifier";
 export type { MockVerifier } from "./MockVerifier";
-export type { Placeholder } from "./Placeholder";
 export * as factories from "./factories";
+export { Groth16Verifier__factory } from "./factories/Groth16Verifier__factory";
 export { MockVerifier__factory } from "./factories/MockVerifier__factory";
-export { Placeholder__factory } from "./factories/Placeholder__factory";
 export type { IGroth16Verifier } from "./SolvencyProofRegistry.sol/IGroth16Verifier";
 export { IGroth16Verifier__factory } from "./factories/SolvencyProofRegistry.sol/IGroth16Verifier__factory";
 export type { SolvencyProofRegistry } from "./SolvencyProofRegistry.sol/SolvencyProofRegistry";
