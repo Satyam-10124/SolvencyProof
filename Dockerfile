@@ -23,6 +23,9 @@ RUN mkdir -p data/yellow_sessions data/output
 # Copy data files if they exist
 COPY data ./data
 
+# Copy circuits for ZK proof generation (if exists)
+COPY circuits ./circuits
+
 # Set working directory to backend
 WORKDIR /app/backend
 

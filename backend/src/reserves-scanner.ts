@@ -26,7 +26,8 @@ async function main() {
     process.exit(1);
   }
 
-  const addresses: string[] = JSON.parse(readFileSync(reservesPath, "utf-8"));
+  const reservesData = JSON.parse(readFileSync(reservesPath, "utf-8"));
+  const addresses: string[] = Array.isArray(reservesData) ? reservesData : (reservesData.addresses || []);
 
   if (addresses.length === 0) {
     console.log("⚠️  No reserve addresses found. Add addresses to data/reserves.json");

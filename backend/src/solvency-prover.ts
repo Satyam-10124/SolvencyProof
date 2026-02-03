@@ -39,6 +39,16 @@ interface ProofResult {
 async function generateProof(): Promise<ProofResult> {
   console.log("🔐 Generating Solvency ZK Proof...\n");
 
+  // Check if circuits are compiled
+  const circuitWasmPath = path.join(CIRCUITS_DIR, "solvency_js/solvency.wasm");
+  const circuitZkeyPath = path.join(CIRCUITS_DIR, "solvency_final.zkey");
+  const circuitsCompiled = fs.existsSync(circuitWasmPath) && fs.existsSync(circuitZkeyPath);
+  
+  if (!circuitsCompiled) {
+    console.log("⚠️  ZK circuits not compiled. Generating demonstration proof...");
+    console.log("   To compile circuits: cd circuits && ./scripts/compile.sh\n");
+  }
+
   // Read liabilities Merkle root
   const rootPath = path.join(OUTPUT_DIR, "liabilities_root.json");
   const totalPath = path.join(OUTPUT_DIR, "liabilities_total.json");
@@ -89,68 +99,109 @@ async function generateProof(): Promise<ProofResult> {
     liabilitiesTotal: liabilitiesTotal,
   };
 
-  // Write input file
-  const inputPath = path.join(CIRCUITS_DIR, "input.json");
-  fs.writeFileSync(inputPath, JSON.stringify(input, null, 2));
-  console.log("📝 Circuit input written to:", inputPath);
-
-  // Generate witness
-  console.log("\n⚙️  Generating witness...");
-  const wasmPath = path.join(CIRCUITS_DIR, "solvency_js/solvency.wasm");
-  const witnessPath = path.join(CIRCUITS_DIR, "witness.wtns");
-
-  execSync(
-    `node ${path.join(CIRCUITS_DIR, "solvency_js/generate_witness.js")} ${wasmPath} ${inputPath} ${witnessPath}`,
-    { stdio: "inherit" }
-  );
-
-  // Generate proof
-  console.log("\n🔮 Generating Groth16 proof...");
-  const zkeyPath = path.join(CIRCUITS_DIR, "solvency_final.zkey");
   const proofPath = path.join(OUTPUT_DIR, "proof.json");
   const publicPath = path.join(OUTPUT_DIR, "public.json");
-
-  execSync(
-    `npx snarkjs groth16 prove ${zkeyPath} ${witnessPath} ${proofPath} ${publicPath}`,
-    { stdio: "inherit" }
-  );
-
-  // Read generated proof
-  const proof: Groth16Proof = JSON.parse(fs.readFileSync(proofPath, "utf-8"));
-  const publicSignals: string[] = JSON.parse(fs.readFileSync(publicPath, "utf-8"));
-
-  console.log("\n✅ Proof generated successfully!");
-  console.log("   Public signals:", publicSignals);
-
-  // Verify proof locally
-  console.log("\n🔍 Verifying proof locally...");
-  const vkeyPath = path.join(CIRCUITS_DIR, "verification_key.json");
   
-  try {
+  let proof: Groth16Proof;
+  let publicSignals: string[];
+  let calldata: { pA: [string, string]; pB: [[string, string], [string, string]]; pC: [string, string]; pubSignals: string[] };
+
+  if (circuitsCompiled) {
+    // Write input file
+    const inputPath = path.join(CIRCUITS_DIR, "input.json");
+    fs.writeFileSync(inputPath, JSON.stringify(input, null, 2));
+    console.log("📝 Circuit input written to:", inputPath);
+
+    // Generate witness
+    console.log("\n⚙️  Generating witness...");
+    const wasmPath = path.join(CIRCUITS_DIR, "solvency_js/solvency.wasm");
+    const witnessPath = path.join(CIRCUITS_DIR, "witness.wtns");
+
     execSync(
-      `npx snarkjs groth16 verify ${vkeyPath} ${publicPath} ${proofPath}`,
+      `node ${path.join(CIRCUITS_DIR, "solvency_js/generate_witness.js")} ${wasmPath} ${inputPath} ${witnessPath}`,
       { stdio: "inherit" }
     );
-    console.log("✅ Local verification passed!");
-  } catch {
-    throw new Error("Local proof verification failed!");
+
+    // Generate proof
+    console.log("\n🔮 Generating Groth16 proof...");
+    const zkeyPath = path.join(CIRCUITS_DIR, "solvency_final.zkey");
+
+    execSync(
+      `npx snarkjs groth16 prove ${zkeyPath} ${witnessPath} ${proofPath} ${publicPath}`,
+      { stdio: "inherit" }
+    );
+
+    // Read generated proof
+    proof = JSON.parse(fs.readFileSync(proofPath, "utf-8"));
+    publicSignals = JSON.parse(fs.readFileSync(publicPath, "utf-8"));
+
+    console.log("\n✅ Proof generated successfully!");
+    console.log("   Public signals:", publicSignals);
+
+    // Verify proof locally
+    console.log("\n🔍 Verifying proof locally...");
+    const vkeyPath = path.join(CIRCUITS_DIR, "verification_key.json");
+    
+    try {
+      execSync(
+        `npx snarkjs groth16 verify ${vkeyPath} ${publicPath} ${proofPath}`,
+        { stdio: "inherit" }
+      );
+      console.log("✅ Local verification passed!");
+    } catch {
+      throw new Error("Local proof verification failed!");
+    }
+
+    // Generate Solidity calldata
+    console.log("\n📦 Generating Solidity calldata...");
+    const calldataOutput = execSync(
+      `npx snarkjs zkey export soliditycalldata ${publicPath} ${proofPath}`,
+      { encoding: "utf-8" }
+    ).trim();
+
+    // Parse calldata by wrapping in array and parsing as JSON
+    const parsed = JSON.parse(`[${calldataOutput}]`);
+    calldata = {
+      pA: parsed[0] as [string, string],
+      pB: parsed[1] as [[string, string], [string, string]],
+      pC: parsed[2] as [string, string],
+      pubSignals: parsed[3] as string[],
+    };
+  } else {
+    // Generate demonstration proof (for demo/hackathon purposes)
+    console.log("📝 Generating demonstration proof...");
+    
+    publicSignals = [
+      input.liabilitiesRoot,
+      input.reservesTotal,
+      input.epochId,
+    ];
+    
+    // Create a deterministic demo proof based on input
+    const demoHash = BigInt(liabilitiesRoot).toString(16).slice(0, 16);
+    proof = {
+      pi_a: [`0x${demoHash}01`, `0x${demoHash}02`],
+      pi_b: [[`0x${demoHash}03`, `0x${demoHash}04`], [`0x${demoHash}05`, `0x${demoHash}06`]],
+      pi_c: [`0x${demoHash}07`, `0x${demoHash}08`],
+      protocol: "groth16",
+      curve: "bn128",
+    };
+    
+    calldata = {
+      pA: [proof.pi_a[0], proof.pi_a[1]],
+      pB: [proof.pi_b[0] as [string, string], proof.pi_b[1] as [string, string]],
+      pC: [proof.pi_c[0], proof.pi_c[1]],
+      pubSignals: publicSignals,
+    };
+    
+    // Save demo proof files
+    fs.writeFileSync(proofPath, JSON.stringify(proof, null, 2));
+    fs.writeFileSync(publicPath, JSON.stringify(publicSignals, null, 2));
+    
+    console.log("\n✅ Demonstration proof generated!");
+    console.log("   ⚠️  Note: This is a DEMO proof, not cryptographically valid.");
+    console.log("   Public signals:", publicSignals);
   }
-
-  // Generate Solidity calldata
-  console.log("\n📦 Generating Solidity calldata...");
-  const calldataOutput = execSync(
-    `npx snarkjs zkey export soliditycalldata ${publicPath} ${proofPath}`,
-    { encoding: "utf-8" }
-  ).trim();
-
-  // Parse calldata by wrapping in array and parsing as JSON
-  const parsed = JSON.parse(`[${calldataOutput}]`);
-  const calldata = {
-    pA: parsed[0] as [string, string],
-    pB: parsed[1] as [[string, string], [string, string]],
-    pC: parsed[2] as [string, string],
-    pubSignals: parsed[3] as string[],
-  };
 
   // Save complete proof result
   const result: ProofResult = {

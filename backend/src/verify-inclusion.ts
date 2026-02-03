@@ -6,17 +6,31 @@ import { hashLeaf, verifyProof, MerkleProof } from "./utils/merkle.js";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 async function main() {
-  const proofFile = process.argv[2];
+  const userIdOrFile = process.argv[2];
 
-  if (!proofFile) {
-    console.log("Usage: npx tsx src/verify-inclusion.ts <inclusion_proof.json>");
-    console.log("Example: npx tsx src/verify-inclusion.ts ../data/output/inclusion_proofs/inclusion_user_001.json");
+  if (!userIdOrFile) {
+    console.log("Usage: npx tsx src/verify-inclusion.ts <user_id or inclusion_proof.json>");
+    console.log("Example: npx tsx src/verify-inclusion.ts alice");
+    console.log("Example: npx tsx src/verify-inclusion.ts ../data/output/inclusion_proofs/inclusion_alice.json");
     process.exit(1);
   }
 
-  const proofPath = path.resolve(__dirname, "..", proofFile);
+  // Check if it's a user ID or a file path
+  let proofPath: string;
+  const inclusionProofsDir = path.resolve(__dirname, "../../data/output/inclusion_proofs");
+  
+  if (userIdOrFile.endsWith(".json")) {
+    // It's a file path
+    proofPath = path.resolve(__dirname, "..", userIdOrFile);
+  } else {
+    // It's a user ID - look for the inclusion proof file
+    proofPath = path.join(inclusionProofsDir, `inclusion_${userIdOrFile}.json`);
+  }
+
   if (!existsSync(proofPath)) {
-    console.error(`❌ File not found: ${proofPath}`);
+    console.error(`❌ Inclusion proof not found for: ${userIdOrFile}`);
+    console.error(`   Expected file: ${proofPath}`);
+    console.error(`   Run 'npx tsx src/merkle-builder.ts' first to generate proofs.`);
     process.exit(1);
   }
 
