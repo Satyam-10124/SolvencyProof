@@ -1,18 +1,18 @@
 {
-  "passed": 11,
-  "failed": 8,
-  "warnings": 4,
+  "passed": 13,
+  "failed": 6,
+  "warnings": 5,
   "tests": [
     {
       "name": "Health Check",
       "endpoint": "/health",
       "method": "GET",
       "status_code": 200,
-      "elapsed_ms": 2542.6,
+      "elapsed_ms": 2137.29,
       "success": true,
       "response": {
         "status": "ok",
-        "timestamp": "2026-02-03T21:34:51.195Z"
+        "timestamp": "2026-02-03T21:41:37.973Z"
       }
     },
     {
@@ -20,7 +20,7 @@
       "endpoint": "/api/liabilities",
       "method": "GET",
       "status_code": 200,
-      "elapsed_ms": 1789.99,
+      "elapsed_ms": 1527.32,
       "success": true,
       "response": {
         "root": "0xa82c97d81113873ce337792957e7bde96bd4e79efd371021a175c3517ead8c5b",
@@ -35,7 +35,7 @@
       "endpoint": "/api/liabilities/build",
       "method": "POST",
       "status_code": 200,
-      "elapsed_ms": 4135.0,
+      "elapsed_ms": 3635.33,
       "success": true,
       "response": {
         "success": true,
@@ -53,12 +53,13 @@
       "name": "Verify Inclusion (alice)",
       "endpoint": "/api/liabilities/verify/alice",
       "method": "GET",
-      "status_code": 500,
-      "elapsed_ms": 4374.0,
-      "success": false,
+      "status_code": 200,
+      "elapsed_ms": 3086.54,
+      "success": true,
       "response": {
-        "error": "Verification failed",
-        "details": "Command failed: npx tsx src/verify-inclusion.ts alice\n\u274c File not found: /app/backend/alice\n"
+        "success": true,
+        "userId": "alice",
+        "output": "\ud83d\udd0d SolvencyProof: Inclusion Verifier\n\nUser:    alice\nBalance: 5000\nRoot:    0xe9a47d641446b9a26b6486d34ee58a117dd599c7ff91e87dba5b04d39ae50dd9\nIndex:   0\nProof:   2 siblings\n\nLeaf hash match: \u2705\nProof valid:     \u2705\n\n\ud83c\udf89 Inclusion verified! Your balance is included in the liabilities root.\n"
       }
     },
     {
@@ -66,11 +67,11 @@
       "endpoint": "/api/liabilities/verify/unknown_user_xyz",
       "method": "GET",
       "status_code": 500,
-      "elapsed_ms": 3430.34,
+      "elapsed_ms": 3241.78,
       "success": false,
       "response": {
         "error": "Verification failed",
-        "details": "Command failed: npx tsx src/verify-inclusion.ts unknown_user_xyz\n\u274c File not found: /app/backend/unknown_user_xyz\n"
+        "details": "Command failed: npx tsx src/verify-inclusion.ts unknown_user_xyz\n\u274c Inclusion proof not found for: unknown_user_xyz\n   Expected file: /app/data/output/inclusion_proofs/inclusion_unknown_user_xyz.json\n   Run 'npx tsx src/merkle-builder.ts' first to generate proofs.\n"
       }
     },
     {
@@ -78,7 +79,7 @@
       "endpoint": "/api/reserves",
       "method": "GET",
       "status_code": 200,
-      "elapsed_ms": 1665.05,
+      "elapsed_ms": 1402.0,
       "success": true,
       "response": {
         "epoch_id": "epoch_001",
@@ -100,12 +101,22 @@
       "name": "Scan Reserves",
       "endpoint": "/api/reserves/scan",
       "method": "POST",
-      "status_code": 500,
-      "elapsed_ms": 4939.95,
-      "success": false,
+      "status_code": 200,
+      "elapsed_ms": 4400.49,
+      "success": true,
       "response": {
-        "error": "Failed to scan reserves",
-        "details": "Command failed: npx tsx src/reserves-scanner.ts\n\u274c Error: TypeError: addresses is not iterable\n    at main (/app/backend/src/reserves-scanner.ts:50:25)\n    at <anonymous> (/app/backend/src/reserves-scanner.ts:96:1)\n    at ModuleJob.run (node:internal/modules/esm/module_job:325:25)\n    at async ModuleLoader.import (node:internal/modules/esm/loader:606:24)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:117:5)\n"
+        "success": true,
+        "message": "Reserves scanned successfully",
+        "data": {
+          "epoch_id": "epoch_001",
+          "timestamp": 1770154915309,
+          "chain": "sepolia",
+          "chain_id": 11155111,
+          "addresses": [],
+          "reserves_total": "0",
+          "reserves_total_wei": "0"
+        },
+        "output": "\ud83d\udce6 SolvencyProof: Reserves Scanner\n\n\ud83d\udccd Scanning 1 reserve address(es) on Sepolia\n\n\n\ud83d\udcb0 Total Reserves: 0 ETH\n   (0 wei)\n\n\u2705 Saved reserves_snapshot.json\n\n\ud83c\udf89 Reserves scan complete!\n"
       }
     },
     {
@@ -113,7 +124,7 @@
       "endpoint": "/api/proof",
       "method": "GET",
       "status_code": 200,
-      "elapsed_ms": 1827.84,
+      "elapsed_ms": 1530.2,
       "success": true,
       "response": {
         "proof": {
@@ -183,11 +194,11 @@
       "endpoint": "/api/proof/generate",
       "method": "POST",
       "status_code": 500,
-      "elapsed_ms": 3000.14,
+      "elapsed_ms": 2248.93,
       "success": false,
       "response": {
         "error": "Failed to generate proof",
-        "details": "Command failed: npx tsx src/solvency-prover.ts\n\n\u274c Error: ENOENT: no such file or directory, open '/app/circuits/build/input.json'\n"
+        "details": "Command failed: npx tsx src/solvency-prover.ts\n\n\u274c Error: Insolvency detected! Reserves (0) < Liabilities (1103000)\n"
       }
     },
     {
@@ -195,7 +206,7 @@
       "endpoint": "/api/contracts",
       "method": "GET",
       "status_code": 200,
-      "elapsed_ms": 2005.43,
+      "elapsed_ms": 1541.34,
       "success": true,
       "response": {
         "network": "sepolia",
@@ -212,7 +223,7 @@
       "endpoint": "/api/contracts/epoch-count",
       "method": "GET",
       "status_code": 500,
-      "elapsed_ms": 2783.71,
+      "elapsed_ms": 2665.45,
       "success": false,
       "response": {
         "error": "Failed to get epoch count",
@@ -224,7 +235,7 @@
       "endpoint": "/api/contracts/proof/1",
       "method": "GET",
       "status_code": 500,
-      "elapsed_ms": 2583.26,
+      "elapsed_ms": 2361.81,
       "success": false,
       "response": {
         "error": "Failed to get on-chain proof",
@@ -236,7 +247,7 @@
       "endpoint": "/api/yellow/status",
       "method": "GET",
       "status_code": 200,
-      "elapsed_ms": 1905.39,
+      "elapsed_ms": 1620.2,
       "success": true,
       "response": {
         "connected": false,
@@ -250,7 +261,7 @@
       "endpoint": "/api/yellow/sessions",
       "method": "GET",
       "status_code": 200,
-      "elapsed_ms": 1701.75,
+      "elapsed_ms": 1426.27,
       "success": true,
       "response": {
         "sessions": [],
@@ -263,14 +274,14 @@
       "endpoint": "/api/yellow/session",
       "method": "POST",
       "status_code": 200,
-      "elapsed_ms": 1529.47,
+      "elapsed_ms": 1229.87,
       "success": true,
       "response": {
         "success": true,
         "message": "Yellow session created (state channel opened)",
         "session": {
-          "id": "session_1770154528879_fn3usg80p",
-          "channelId": "0x1750a917cbff01968b5b180aedf1e0f2348e35bead6507f62344864b92510f7e",
+          "id": "session_1770154929984_s61mranbw",
+          "channelId": "0xe96d106a312c5bdc83bdaec9d3661b67a8624f84203c0d92746a10e0f3445289",
           "participants": [
             "0x1234567890123456789012345678901234567890"
           ],
@@ -278,22 +289,22 @@
             "0x1234567890123456789012345678901234567890": "0"
           },
           "status": "open",
-          "stateHash": "0x020cdb8c3de1d4fa6d9131221c5b281d1f15f5363d5f55cfc728848a3895deaa",
+          "stateHash": "0x04ac9ac51b87516f80e2f5c8297e1f239e556d52028826f55a51385214e43eab",
           "nonce": 0,
-          "createdAt": "2026-02-03T21:35:28.880Z"
+          "createdAt": "2026-02-03T21:42:09.985Z"
         }
       }
     },
     {
       "name": "Get Session Details",
-      "endpoint": "/api/yellow/session/session_1770154528879_fn3usg80p",
+      "endpoint": "/api/yellow/session/session_1770154929984_s61mranbw",
       "method": "GET",
       "status_code": 200,
-      "elapsed_ms": 1645.84,
+      "elapsed_ms": 1134.71,
       "success": true,
       "response": {
-        "id": "session_1770154528879_fn3usg80p",
-        "channelId": "0x1750a917cbff01968b5b180aedf1e0f2348e35bead6507f62344864b92510f7e",
+        "id": "session_1770154929984_s61mranbw",
+        "channelId": "0xe96d106a312c5bdc83bdaec9d3661b67a8624f84203c0d92746a10e0f3445289",
         "participants": [
           "0x1234567890123456789012345678901234567890"
         ],
@@ -302,12 +313,12 @@
         },
         "nonce": 0,
         "status": "open",
-        "stateHash": "0x020cdb8c3de1d4fa6d9131221c5b281d1f15f5363d5f55cfc728848a3895deaa",
+        "stateHash": "0x04ac9ac51b87516f80e2f5c8297e1f239e556d52028826f55a51385214e43eab",
         "signatures": {
-          "0xa58DCCb0F17279abD1d0D9069Aa8711Df4a4c58E": "0xe5447d331b5ce12f169edfd5843256c9c64c01e8380fe655f25fe71f14b64ee11240f3f9c364237177188d071b0fa54056c99690fc320bc3933dc0acc43aebc91c"
+          "0xa58DCCb0F17279abD1d0D9069Aa8711Df4a4c58E": "0x1e58def306c663830d8347ab5ea5cd90a8111f9ff2daa63ff89eb74506fc713963aedf47006557940464c68aea4357a6b5c07713dbcd853bb03b8caad2c4203d1b"
         },
-        "createdAt": "2026-02-03T21:35:28.880Z",
-        "updatedAt": "2026-02-03T21:35:28.880Z",
+        "createdAt": "2026-02-03T21:42:09.985Z",
+        "updatedAt": "2026-02-03T21:42:09.985Z",
         "metadata": {
           "version": 1,
           "turnNum": 0,
@@ -317,10 +328,10 @@
     },
     {
       "name": "Update Allocations",
-      "endpoint": "/api/yellow/session/session_1770154528879_fn3usg80p/allocations",
+      "endpoint": "/api/yellow/session/session_1770154929984_s61mranbw/allocations",
       "method": "PUT",
       "status_code": 500,
-      "elapsed_ms": 1402.37,
+      "elapsed_ms": 1398.5,
       "success": false,
       "response": {
         "error": "Failed to update allocations",
@@ -329,18 +340,18 @@
     },
     {
       "name": "Get Session History",
-      "endpoint": "/api/yellow/session/session_1770154528879_fn3usg80p/history",
+      "endpoint": "/api/yellow/session/session_1770154929984_s61mranbw/history",
       "method": "GET",
       "status_code": 200,
-      "elapsed_ms": 1663.31,
+      "elapsed_ms": 1455.31,
       "success": true,
       "response": {
-        "sessionId": "session_1770154528879_fn3usg80p",
+        "sessionId": "session_1770154929984_s61mranbw",
         "history": [
           {
-            "timestamp": "2026-02-03T21:35:28.893Z",
+            "timestamp": "2026-02-03T21:42:09.996Z",
             "nonce": 0,
-            "stateHash": "0x020cdb8c3de1d4fa6d9131221c5b281d1f15f5363d5f55cfc728848a3895deaa",
+            "stateHash": "0x04ac9ac51b87516f80e2f5c8297e1f239e556d52028826f55a51385214e43eab",
             "allocations": {
               "0x1234567890123456789012345678901234567890": "0"
             },
@@ -355,11 +366,11 @@
       "endpoint": "/api/workflow/full",
       "method": "POST",
       "status_code": 500,
-      "elapsed_ms": 7062.96,
+      "elapsed_ms": 7294.44,
       "success": false,
       "response": {
         "error": "Workflow failed",
-        "details": "Command failed: npx tsx src/reserves-scanner.ts\n\u274c Error: TypeError: addresses is not iterable\n    at main (/app/backend/src/reserves-scanner.ts:50:25)\n    at <anonymous> (/app/backend/src/reserves-scanner.ts:96:1)\n    at ModuleJob.run (node:internal/modules/esm/module_job:325:25)\n    at async ModuleLoader.import (node:internal/modules/esm/loader:606:24)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:117:5)\n"
+        "details": "Command failed: npx tsx src/solvency-prover.ts\n\n\u274c Error: Insolvency detected! Reserves (0) < Liabilities (1103000)\n"
       }
     }
   ]

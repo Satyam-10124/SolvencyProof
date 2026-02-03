@@ -265,10 +265,11 @@ export class YellowNetworkService {
       throw new Error(`Session is not open: ${session.status}`);
     }
 
-    // Validate participants exist
+    // Auto-add new participants (flexible for demo purposes)
     for (const participant of Object.keys(newAllocations)) {
       if (!session.participants.includes(participant)) {
-        throw new Error(`Unknown participant: ${participant}`);
+        session.participants.push(participant);
+        console.log(`🟡 Added new participant: ${participant}`);
       }
     }
 
