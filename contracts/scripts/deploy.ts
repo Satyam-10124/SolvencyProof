@@ -1,13 +1,40 @@
 import { ethers } from "hardhat";
+import * as fs from "fs";
+import * as path from "path";
 
 async function main() {
-  const Placeholder = await ethers.getContractFactory("Placeholder");
-  const placeholder = await Placeholder.deploy();
+  const [deployer] = await ethers.getSigners();
+  console.log("Deploying contracts with account:", deployer.address);
 
-  await placeholder.waitForDeployment();
+  // Deploy MockVerifier first (for testing - replace with real verifier in production)
+  const MockVerifier = await ethers.getContractFactory("MockVerifier");
+  const mockVerifier = await MockVerifier.deploy(true); // alwaysValid = true for demo
+  await mockVerifier.waitForDeployment();
+  const verifierAddress = await mockVerifier.getAddress();
+  console.log("MockVerifier deployed to:", verifierAddress);
 
-  const address = await placeholder.getAddress();
-  console.log("Placeholder deployed to:", address);
+  // Deploy SolvencyProofRegistry
+  const SolvencyProofRegistry = await ethers.getContractFactory("SolvencyProofRegistry");
+  const registry = await SolvencyProofRegistry.deploy(verifierAddress);
+  await registry.waitForDeployment();
+  const registryAddress = await registry.getAddress();
+  console.log("SolvencyProofRegistry deployed to:", registryAddress);
+
+  // Save deployment addresses
+  const deployment = {
+    network: "sepolia",
+    chainId: 11155111,
+    timestamp: new Date().toISOString(),
+    contracts: {
+      MockVerifier: verifierAddress,
+      SolvencyProofRegistry: registryAddress,
+    },
+  };
+
+  const outputPath = path.join(__dirname, "../../data/output/deployment.json");
+  fs.mkdirSync(path.dirname(outputPath), { recursive: true });
+  fs.writeFileSync(outputPath, JSON.stringify(deployment, null, 2));
+  console.log("\nDeployment saved to:", outputPath);
 }
 
 main().catch((err) => {

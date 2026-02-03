@@ -2,3 +2,4 @@ packages:
   - "contracts"
   - "backend"
   - "app"
+  - "circuits"

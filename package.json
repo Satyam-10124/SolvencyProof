@@ -3,9 +3,14 @@
   "private": true,
   "packageManager": "pnpm@9.15.4",
   "scripts": {
+    "install:all": "pnpm install",
     "contracts:compile": "pnpm --filter @solvencyproof/contracts compile",
-    "contracts:deploy:sepolia": "pnpm --filter @solvencyproof/contracts deploy:sepolia",
+    "contracts:deploy": "pnpm --filter @solvencyproof/contracts deploy:sepolia",
     "app:dev": "pnpm --filter @solvencyproof/app dev",
-    "backend:typecheck": "pnpm --filter @solvencyproof/backend typecheck"
+    "backend:liabilities": "pnpm --filter @solvencyproof/backend build:liabilities",
+    "backend:reserves": "pnpm --filter @solvencyproof/backend scan:reserves",
+    "circuits:setup": "cd circuits && npm run setup",
+    "circuits:prove": "cd circuits && npm run prove",
+    "demo": "echo '1. Run: pnpm backend:liabilities' && echo '2. Run: pnpm backend:reserves' && echo '3. Run: pnpm app:dev' && echo '4. Open http://localhost:3000'"
   }
 }

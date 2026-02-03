@@ -1,0 +1,10 @@
+{
+  "userId": "user_005",
+  "balance": "200",
+  "leafHash": "0xae46850cbfdc0b903d7e2f7136a50e210ac50cb8497c663da9c94816eed31280",
+  "proof": [
+    "0xb9529cb426e1d0c2739a6306577e274f3aa73c0c17ac6f5bc1b3d7d6f3730a9b"
+  ],
+  "index": 4,
+  "root": "0x60700382e80fbacd9980bd25368d52af110c329e8dde3b0caa2644464e739bc8"
+}

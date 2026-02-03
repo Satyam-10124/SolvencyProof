@@ -1,0 +1,12 @@
+{
+  "userId": "user_001",
+  "balance": "100",
+  "leafHash": "0x76a3e58ad0b60ed3cde5f4eb6fa67c5e1bc083b2dcce73b422e642d8898c6a6f",
+  "proof": [
+    "0x71be5b42a6ef7856e08952e83ae914369ec0b0b8587934f1deac360dca3783ba",
+    "0x97ef8c8aa57aec209ab12bc50a5a72fe3bd4b1a73fa039814f416fa28d050709",
+    "0xae46850cbfdc0b903d7e2f7136a50e210ac50cb8497c663da9c94816eed31280"
+  ],
+  "index": 0,
+  "root": "0x60700382e80fbacd9980bd25368d52af110c329e8dde3b0caa2644464e739bc8"
+}

@@ -1,0 +1,16 @@
+{
+  "name": "@solvencyproof/circuits",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "setup": "bash scripts/setup.sh",
+    "compile": "circom solvency.circom --r1cs --wasm --sym -o build",
+    "compile:buffer": "circom solvency_buffer.circom --r1cs --wasm --sym -o build",
+    "prove": "node scripts/prove.js",
+    "verify": "node scripts/verify.js"
+  },
+  "dependencies": {
+    "circomlib": "^2.0.5",
+    "snarkjs": "^0.7.4"
+  }
+}

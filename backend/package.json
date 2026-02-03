@@ -4,9 +4,21 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "typecheck": "tsc -p tsconfig.json --noEmit"
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "build": "tsc -p tsconfig.json",
+    "build:liabilities": "npx tsx src/liabilities-builder.ts",
+    "scan:reserves": "npx tsx src/reserves-scanner.ts",
+    "prove:solvency": "npx tsx src/prove-solvency.ts",
+    "verify:inclusion": "npx tsx src/verify-inclusion.ts"
+  },
+  "dependencies": {
+    "viem": "^2.21.40",
+    "csv-parse": "^5.5.6",
+    "dotenv": "^16.4.5"
   },
   "devDependencies": {
+    "@types/node": "^22.10.2",
+    "tsx": "^4.19.2",
     "typescript": "^5.6.3"
   }
 }
